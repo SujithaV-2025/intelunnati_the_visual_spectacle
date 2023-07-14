@@ -1,0 +1,45 @@
+module non_restoring_division_tb;
+
+  reg [7:0] dividend;
+  reg [7:0] divisor;
+  reg clk;
+  reg reset;
+
+  wire [7:0] quotient;
+  wire [7:0] remainder;
+
+  non_restoring_division dut (
+    .dividend(dividend),
+    .divisor(divisor),
+    .quotient(quotient),
+    .remainder(remainder)
+  );
+
+  initial begin
+    // Initialize testbench inputs
+    dividend = 100; // Example dividend value
+    divisor = 25; // Example divisor value
+    clk = 0;
+    reset = 1;
+
+    // Reset the module
+    #10 reset = 0;
+
+    // Provide clock signal and inputs
+    #5 clk = 1;
+    #5 clk = 0;
+    #5 clk = 1;
+    #5 clk = 0;
+
+    // Wait for the division to complete
+    #100;
+
+    // Display the results
+    $display("Quotient: %d", quotient);
+    $display("Remainder: %d", remainder);
+
+    // End the simulation
+    $finish;
+  end
+
+endmodule
